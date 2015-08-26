@@ -1,0 +1,73 @@
+body, h1, h2, h3, input, button, select, option, label {
+	font-family: Verdana,Tahoma,Arial,Sans-Serif;
+	font-size: 12pt;
+	padding: 0;
+	margin: 0;
+	color: #666;
+}
+body {
+	line-height: 1.5em;
+	background: #fff;
+	margin: 2em;
+}
+h1, h2, h3 {
+	font-weight: normal;
+	margin: 0.5em 0 1em 0;
+	letter-spacing: -1px;
+}
+h1 {
+	font-size: 1.4rem;
+	color: #b82;
+}
+h2 {
+	font-size: 1.2rem;
+	text-transform: uppercase;
+}
+h3 {
+	margin-top: 3em;
+	font-size: 1.1rem;
+	color: #b66;
+	border-top: solid 1px #ccc;
+	border-bottom: solid 1px #ccc;
+}
+h3 em {
+	font-size: 0.8em;
+	text-transform: uppercase;
+	font-style: normal;
+}
+.form-fields {
+	margin: 0 1em 1em 0;
+	float: left;
+}
+input, select {
+	background: #ddd;
+	border: 0;
+	padding: 0.2em 0.5em;
+}
+label {
+	clear: both;
+	color: #777;
+	display: block;
+	text-transform: uppercase;
+	font-size: 0.75rem;
+	margin-bottom: 0.5em;
+}
+strong {
+	font-size: 1rem;
+}
+.invalid {
+	background: #eaa;
+}
+
+.credit {
+	color: #4a4;
+}
+.overdue {
+	color: red;
+}
+a, a:link, a:active, a:visited, a:hover {
+	color: #44d;
+}
+a:hover {
+	color: #77f;
+}

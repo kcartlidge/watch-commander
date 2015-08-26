@@ -1,0 +1,102 @@
+<html>
+<head>
+	<link rel="stylesheet" href="site.css" type="text/css" media="all" charset="utf-8">
+	<meta charset="UTF-8">
+	<script src='zepto.min.js'></script>
+	<script src='watch-commander.js'></script>
+	<script src='account.js'></script>
+	<script type='text/javascript'>
+		// Create a sample account. This could be a simple object but for this
+		// example we use an TestAccount constructor from the account.js script.
+        var account = new TestAccount();
+		account.Salutation = '8';
+		account.FirstName = 'Bobby';
+		account.LastName = 'Tables';
+
+		$(document).on('ready', function(){
+			// Bind to the UI and set the initial balance. This shows how once the
+			// object has been bound we switch to using the newly-added .set function
+			// rather than direct property updates.
+			WatchCommander.call(account, '#bound-controls');
+			account.set('Balance', 0);
+
+			// Use a timer to show the background update of the running time.
+			setInterval(function(){
+				account.set('Timer', account.get('Timer') + 1);
+			}, 1000);
+
+			// Add the logic to handle the Change Balance button.
+			$('#cycle').on('click', function(){
+				switch(account.get('Balance')) {
+				case 0:
+					account.set('Balance',-100);
+					break;
+				case -100:
+					account.set('Balance',100);
+					break;
+				case 100:
+					account.set('Balance',0);
+					break;
+				}
+				return false;
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<h1>Watch Commander Sample</h1>
+
+	<div id='bound-controls'>
+		<h3 style='display:none' wc='toggle:hasFullName'>
+			<em>Account Holder:</em> <span wc='html:DisplayName'></span>
+		</h3>
+		<div class='form-fields'>
+			<label for='salutation'>Salutation:</label>
+			<select name='salutation' wc='options:getSalutations,val:Salutation' autofocus='autofocus'></select>
+		</div>
+		<div class='form-fields'>
+			<label for='firstname'>First Name:</label>
+			<input type='text' name='firstname' wc='val:FirstName'>
+		</div>
+		<div class='form-fields'>
+			<label for='lastname'>Last Name:</label>
+			<input id='lastname' type='text' name='lastname' wc='val:LastName'>
+		</div>
+
+		<label>Balance: <strong wc='html:Balance,class:CSS'></strong></label>
+		<label wc='html:TimerText'></label>
+		<div class='form-buttons'>
+			<label for='cycle'></label>
+			<button id='cycle'>Change Balance</button>
+		</div>
+	</div>
+
+	<h3>THINGS TO TRY</h3>
+	<ol>
+		<li>Remove the <em>first name</em> AND <em>last name</em>.</li>
+		<li>Have a <em>last name</em> less than three characters.</li>
+		<li>Use the <em>Change Balance</em> button to see CSS changes.</li>
+		<li>Check this page's <em>View Source</em> to see the (small) JavaScript in the header.</li>
+		<li>Check the <em>account.js</em> included file to see an example model with properties, virtuals, validation, option lists and change event handlers.</li>
+	</ol>
+
+	<h3>NOTES</h3>
+	<ul>
+		<li><em>First name</em> is a simple required field (no extra code needed).</li>
+		<li><em>Last name</em> must be at least 3 characters (custom validator).</li>
+		<li><em>Salutation</em> options are fed from an array property in the data object.</li>
+		<li>The form title is bound to a virtual property, updated automatically.</li>
+		<li>The form title is automatically hidden if there is no <em>first</em> or <em>last name</em>.</li>
+		<li>Initial values came from the original object and were promoted into properties when <em>Watch Commander</em> was activated.</li>
+		<li>Validation automatically adds an <em>invalid</em> class, though the entire validation can be overridden.</li>
+		<li>The <em>Change Balance</em> button will cycle the <em>balance</em> through three different values to show the live switching of CSS classes.</li>
+		<li><em>Last name</em> has an ID in the element markup, but the other fields do not. <em>Watch Commander</em> automatically generates missing bound control IDs for it's own use.</li>
+		<li>The <em>Seconds Active</em> counter on the form shows a bound control being updated live from a virtual property, whose backing value is another property which is bumped by a timer.</li>
+		<li>When a property is set (for example manually or by the timer) its bound control is updated. At the same time, all virtual controls' bindings are also updated as they may have now changed.</li>
+		<li>The form title also shows using the <em>getOptionText</em> method to include the text for a value bound to a select list whose options are in turn bound to an array property (it can be virtual) on the same object.</li>
+		<li>Multiple bindings can be entered into a single data-bind as comma-separated key:value pairs. They will process sequentially, meaning you can chain them to allow compound logic to build up. For example, <em>class:plain,addClass:BalanceCSS,addClass:StatusCSS</em> will clear all CSS classes then use the (presumably virtual) properties to apply new ones first by balance then by status.</li>
+	</ul>
+
+</body>
+</html>
