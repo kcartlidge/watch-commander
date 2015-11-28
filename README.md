@@ -249,7 +249,7 @@ The options available, called *bindings*, are listed below.
 
 Note that you may have multiple entries comma separated (see example above) in which case they are processed in strict sequence. You could for example use the *class* binding to clear existing CSS classes and set a new (exclusive) one, followed by an *addClass* binding to enhance your UI by adding in extra classes as well.
 
-  wc='text:propertyName'
+	wc='text:propertyName'
 Sets the text attribute of a control, such as an input or password element, from the value of the property.
 
 	wc='val:propertyName'
