@@ -4,7 +4,7 @@ Copyright K Cartlidge, 2014.
 
 Licensed under a Creative Commons Attribution Share-Alike (CC BY-SA) licence.
 You can view this license at:
-    http://creativecommons.org/licenses/by-sa/4.0/
+		http://creativecommons.org/licenses/by-sa/4.0/
 
 
 Summary from the Creative Commons Site (not a substitute for the licence):
@@ -21,9 +21,9 @@ var WatchCommander = function() { };
 
 // Main method, called to attach an object to the UI.
 // Note that you must use '.call' to set the context to the object.
-// Example:  WatchCommander.call(account, '#bound-form');
+// Example:	WatchCommander.call(account, '#bound-form');
 WatchCommander = function(selector) {
-    var self = this;
+	var self = this;
 
 	// Collect the keys before modifying anything.
 	// Splits into normal and virtual properties.
@@ -48,30 +48,30 @@ WatchCommander = function(selector) {
 		properties: props,
 		virtuals: funcs,
 		bindings: [],
-        invalids: [],
+		invalids: [],
 		attribute: 'wc'
 	};
 
-    // Add a method to the original object to remove all the extra stuff which was
+	// Add a method to the original object to remove all the extra stuff which was
 	// added to the object. Also stops all UI bindings.
 	self.stopWatching = function () {
 
-        // Remove bound control triggers.
+		// Remove bound control triggers.
 		var qty = self.__WatchCommander.bindingCount;
-	    for (var i = 0; i < qty; i++) {
-	        var binding = self.__WatchCommander.bindings[i];
-	        var bound = $(binding.selector);
-	        bound.off('change');
-	    }
+		for (var i = 0; i < qty; i++) {
+			var binding = self.__WatchCommander.bindings[i];
+			var bound = $(binding.selector);
+			bound.off('change');
+		}
 
-        // Remove added stuff from the object, returning it to normal.
-	    delete self.__WatchCommander;
-	    delete self.set;
-	    delete self.get;
-	    delete self.getOptionText;
-	    delete self.trigger;
-	    delete self.isValid;
-	    delete self.stopWatching;
+		// Remove added stuff from the object, returning it to normal.
+		delete self.__WatchCommander;
+		delete self.set;
+		delete self.get;
+		delete self.getOptionText;
+		delete self.trigger;
+		delete self.isValid;
+		delete self.stopWatching;
 	};
 
 	// Add the set accessor. Returns the new value (or null if not a valid property).
@@ -95,55 +95,55 @@ WatchCommander = function(selector) {
 			}
 			return actualNewValue;
 		}
-		
+
 		// Return null if there is no concrete property to set.
 		return null;
 	};
 
-    // Add the get accessor (either concrete or virtual properties).
-    // Returns null if there is nothing available to get.
+	// Add the get accessor (either concrete or virtual properties).
+	// Returns null if there is nothing available to get.
 	self.get = function (propertyName) {
 		var self = this;
 		var value = null;
 		if (self.__WatchCommander.properties.indexOf(propertyName) > -1) {
-		    value = self[propertyName];
-        } else if (self.__WatchCommander.virtuals.indexOf(propertyName) > -1) {
-		    value = self[propertyName]();
-        } else if (typeof(self[propertyName]) == 'function') {
-		    value = self[propertyName]();
+			value = self[propertyName];
+		} else if (self.__WatchCommander.virtuals.indexOf(propertyName) > -1) {
+			value = self[propertyName]();
+		} else if (typeof(self[propertyName]) == 'function') {
+			value = self[propertyName]();
 		}
 		return value;
 	};
 
-    // Add a default UI validity handler to the object if one is not already defined.
+	// Add a default UI validity handler to the object if one is not already defined.
 	// If the object already has one set, this leaves it in place to make use of it.
 	// The default one toggle an 'invalid' CSS class on the bound element.
 	if (typeof (self.showValidity) != 'function') {
-	    self.showValidity = function (propertyName, selector, valid) {
-	        if (valid) {
-	            $(selector).removeClass('invalid');
-	        } else {
-	            $(selector).addClass('invalid');
-	        }
-	    };
+		self.showValidity = function (propertyName, selector, valid) {
+			if (valid) {
+				$(selector).removeClass('invalid');
+			} else {
+				$(selector).addClass('invalid');
+			}
+		};
 	};
 
-    // Adds a method to check the validity of the concrete/virtual property named.
-    // If no property is provided, the default method checks all of them and returns
+	// Adds a method to check the validity of the concrete/virtual property named.
+	// If no property is provided, the default method checks all of them and returns
 	// a single flag where if ANY fail then ALL have failed.
 	// This makes use of an internal collection for invalid property names on the object.
 	if (typeof (self.isValid) != 'function') {
-	    self.isValid = function (propertyName) {
-	        if (typeof (self.__WatchCommander.invalids) != 'undefined') {
-	            if (typeof (propertyName) == 'undefined' || propertyName == null || propertyName == '') {
-	                return self.__WatchCommander.invalids.length == 0;
-	            } else {
-	                return self.__WatchCommander.invalids.indexOf(propertyName) == -1;
-	            }
-	        }
-	        return true;
+		self.isValid = function (propertyName) {
+			if (typeof (self.__WatchCommander.invalids) != 'undefined') {
+				if (typeof (propertyName) == 'undefined' || propertyName == null || propertyName == '') {
+					return self.__WatchCommander.invalids.length == 0;
+				} else {
+					return self.__WatchCommander.invalids.indexOf(propertyName) == -1;
+				}
+			}
+			return true;
 		};
-    };
+	};
 
 	// Add a helper for select list option values, where the first parameter is
 	// the property holding the value and the second is the property holding the
@@ -176,14 +176,14 @@ WatchCommander = function(selector) {
 		// If provided, they should be unique within the bound area.
 		var id = '#' + $this[0].id;
 		if (id.length == 1) {
-		    id = WatchCommander.makeId();
+			id = WatchCommander.makeId();
 			$this[0].id = id;
 			id = '#' + id;
 		}
 
 		// Skip if no ID exists or could be created (precautionary; should not occur).
 		if (id.length != 1) {
-		    var options = $this.attr(self.__WatchCommander.attribute).split(',');
+			var options = $this.attr(self.__WatchCommander.attribute).split(',');
 			var count = options.length;
 
 			// Attach the bindings specified in the element's attribute.
@@ -229,8 +229,7 @@ WatchCommander.makeId = function() {
 // which is ideal for occasions where you need to show a definitive UI state.
 WatchCommander.applyBindings = function(propertyName, evenUnchanged) {
 	var self = this;
-	var doAll = evenUnchanged ||
-		(typeof(propertyName) == 'undefined' || propertyName == null || propertyName == '');
+	var doAll = evenUnchanged || (typeof(propertyName) == 'undefined' || propertyName == null || propertyName == '');
 	var qty = self.__WatchCommander.bindingCount;
 	for(var i=0; i<qty; i++) {
 		var binding = self.__WatchCommander.bindings[i];
@@ -306,40 +305,40 @@ WatchCommander.bind = function(binding, evenUnchanged) {
 			break;
 	}
 
-    // Determine the validity by removing any current entry then re-assessing it.
-    // Start by assuming all is okay and removing it from the invalids collection.
+	// Determine the validity by removing any current entry then re-assessing it.
+	// Start by assuming all is okay and removing it from the invalids collection.
 	var valid = true;
 	var idx = self.__WatchCommander.invalids.indexOf(binding.propertyName);
 	if (idx > -1) {
-	    self.__WatchCommander.invalids.splice(idx, 1);
+			self.__WatchCommander.invalids.splice(idx, 1);
 	}
 
-    // First check if it is a required field and is missing a value.
+	// First check if it is a required field and is missing a value.
 	if (self.RequiredFields.indexOf(binding.propertyName) > -1) {
-	    if (typeof (value) == 'undefined' || value == null || value.toString().trim() == '') {
-	        valid = false;
-	    }
+		if (typeof (value) == 'undefined' || value == null || value.toString().trim() == '') {
+			valid = false;
+		}
 	}
 
-    // Then check against any extra validation specified in the model.
-    var hasValidation = typeof (self.Validation) != 'undefined';
+	// Then check against any extra validation specified in the model.
+	var hasValidation = typeof (self.Validation) != 'undefined';
 	if (hasValidation) {
-	    if (typeof(self.Validation[binding.propertyName]) != 'undefined') {
-	        if (typeof (value) == 'undefined' || value == null) {
+		if (typeof(self.Validation[binding.propertyName]) != 'undefined') {
+			if (typeof (value) == 'undefined' || value == null) {
 				// An undefined value will always fail custom validation.
-	            valid = false;
-	        } else {
+				valid = false;
+			} else {
 				// Otherwise, call the custom validator.
-	            if (!(self.Validation[binding.propertyName].call(self, value))) {
-	                valid = false;
-	            }
-	        }
-	    }
+				if (!(self.Validation[binding.propertyName].call(self, value))) {
+					valid = false;
+				}
+			}
+		}
 	}
 
-    // Store the validity result and update the UI binding(s) for the property.
+	// Store the validity result and update the UI binding(s) for the property.
 	if (!valid) {
-	    self.__WatchCommander.invalids.push(binding.propertyName);
+		self.__WatchCommander.invalids.push(binding.propertyName);
 	}
 	self.showValidity(binding.propertyName, binding.selector, valid);
 }
