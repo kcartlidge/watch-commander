@@ -314,7 +314,8 @@ WatchCommander.bind = function(binding, evenUnchanged) {
 	}
 
 	// First check if it is a required field and is missing a value.
-	if (self.RequiredFields.indexOf(binding.propertyName) > -1) {
+	var hasRequired = typeof (self.RequiredFields) != 'undefined';
+	if (hasRequired && self.RequiredFields.indexOf(binding.propertyName) > -1) {
 		if (typeof (value) == 'undefined' || value == null || value.toString().trim() == '') {
 			valid = false;
 		}
