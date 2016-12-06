@@ -102,9 +102,21 @@ WatchCommander = function(selector) {
 
 	// Add the get accessor (either concrete or virtual properties).
 	// Returns null if there is nothing available to get.
+    // If no property name is provided, returns a copy of the object
+    // with it's original properties only (eg for POSTing).
 	self.get = function (propertyName) {
 		var self = this;
 		var value = null;
+
+        if (typeof(propertyName) === "undefined") {
+            var result = {};
+            for(var i=0;i<self.__WatchCommander.properties.length;i++) {
+                var f = self.__WatchCommander.properties[i];
+                result[f] = self[f];
+            }
+            return result;
+        }
+
 		if (self.__WatchCommander.properties.indexOf(propertyName) > -1) {
 			value = self[propertyName];
 		} else if (self.__WatchCommander.virtuals.indexOf(propertyName) > -1) {
